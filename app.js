@@ -8,6 +8,7 @@
  * @requires http-errors
  */
 
+require('dotenv').config();
 const createError = require('http-errors');
 const mongoose = require('mongoose');
 
@@ -31,7 +32,7 @@ app.set('json spaces', 2);
  * @description Establish MongoDB connection
  * @type {Promise<void>}
  */
-mongoose.connect('mongodb+srv://root:root1234@cluster0.ec87gn6.mongodb.net/ProjectData');
+mongoose.connect(process.env.MONGODB_URI);
 
 /**
  * @description Configure view engine settings
