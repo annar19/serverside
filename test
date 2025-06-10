@@ -1,0 +1,159 @@
+http://localhost:3000
+
+testing getting the about
+-------------------------
+url=http://localhost:3000/api/about/
+data.status_code=200
+b'[\n  {\n    "first_name": "Anna",\n    "last_name": "Ryvkov"\n  },\n  {\n    "first_name": "Dor",\n    "last_name": "Hakmon"\n  }\n]'
+data.text=[
+  {
+    "first_name": "Anna",
+    "last_name": "Ryvkov"
+  },
+  {
+    "first_name": "Dor",
+    "last_name": "Hakmon"
+  }
+]
+[{'first_name': 'Anna', 'last_name': 'Ryvkov'}, {'first_name': 'Dor', 'last_name': 'Hakmon'}]
+
+
+testing getting the report - 1
+------------------------------
+url=http://localhost:3000/api/report/?id=123123&year=2025&month=6
+data.status_code=200
+b'{\n  "userid": "123123",\n  "year": 2025,\n  "month": 6,\n  "costs": [\n    {\n      "food": []\n    },\n    {\n      "health": []\n    },\n    {\n      "housing": []\n    },\n    {\n      "sport": []\n    },\n    {\n      "education": []\n    }\n  ]\n}'
+data.text={
+  "userid": "123123",
+  "year": 2025,
+  "month": 6,
+  "costs": [
+    {
+      "food": []
+    },
+    {
+      "health": []
+    },
+    {
+      "housing": []
+    },
+    {
+      "sport": []
+    },
+    {
+      "education": []
+    }
+  ]
+}
+
+
+
+testing adding cost item without date
+----------------------------------
+url=http://localhost:3000/api/add/
+data.status_code=200
+b'{\n  "description": "milk 9",\n  "category": "food",\n  "userid": "123123",\n  "sum": 8,\n  "_id": "6848594322009fb62e386064",\n  "date": "2025-06-10T16:11:47.645Z",\n  "__v": 0\n}'
+
+
+testing adding cost item with date
+----------------------------------
+url=http://localhost:3000/api/add/
+data.status_code=200
+b'{\n  "description": "shoes",\n  "category": "sport",\n  "userid": "123123",\n  "sum": 100,\n  "date": "2025-06-15T10:00:00.000Z",\n  "_id": "6848594322009fb62e386066",\n  "__v": 0\n}'
+
+
+testing trying adding cost item without description
+----------------------------------
+url=http://localhost:3000/api/add/
+data.status_code=400
+b'{\n  "error": "Missing Required Fields",\n  "message": "The following fields are required: description"\n}'
+
+
+testing trying adding cost item without category
+----------------------------------
+url=http://localhost:3000/api/add/
+data.status_code=400
+b'{\n  "error": "Missing Required Fields",\n  "message": "The following fields are required: category"\n}'
+
+
+testing adding cost item without sum
+----------------------------------
+url=http://localhost:3000/api/add/
+data.status_code=400
+b'{\n  "error": "Missing Required Fields",\n  "message": "The following fields are required: sum"\n}'
+
+
+testing adding cost item without userid
+----------------------------------
+url=http://localhost:3000/api/add/
+data.status_code=400
+b'{\n  "error": "Missing Required Fields",\n  "message": "The following fields are required: userid"\n}'
+
+
+testing getting the report - 2
+------------------------------
+url=http://localhost:3000/api/report/?id=123123&year=2025&month=6
+data.status_code=200
+b'{\n  "userid": "123123",\n  "year": 2025,\n  "month": 6,\n  "costs": [\n    {\n      "food": [\n        {\n          "sum": 8,\n          "description": "milk 9",\n          "day": 10\n        }\n      ]\n    },\n    {\n      "health": []\n    },\n    {\n      "housing": []\n    },\n    {\n      "sport": [\n        {\n          "sum": 100,\n          "description": "shoes",\n          "day": 15\n        }\n      ]\n    },\n    {\n      "education": []\n    }\n  ]\n}'
+data.text={
+  "userid": "123123",
+  "year": 2025,
+  "month": 6,
+  "costs": [
+    {
+      "food": [
+        {
+          "sum": 8,
+          "description": "milk 9",
+          "day": 10
+        }
+      ]
+    },
+    {
+      "health": []
+    },
+    {
+      "housing": []
+    },
+    {
+      "sport": [
+        {
+          "sum": 100,
+          "description": "shoes",
+          "day": 15
+        }
+      ]
+    },
+    {
+      "education": []
+    }
+  ]
+}
+
+
+
+testing getting the user id
+------------------------------
+url=http://localhost:3000/api/users/123123
+data.status_code=200
+b'{\n  "id": "123123",\n  "first_name": "mosh",\n  "last_name": "israeli",\n  "total": 108\n}'
+data.text={
+  "id": "123123",
+  "first_name": "mosh",
+  "last_name": "israeli",
+  "total": 108
+}
+
+
+
+testing a user number that is not in the database
+------------------------------
+url=http://localhost:3000/api/users/123
+data.status_code=404
+b'{\n  "error": "User not found",\n  "message": "No user found with id 123"\n}'
+data.text={
+  "error": "User not found",
+  "message": "No user found with id 123"
+}
+
+
